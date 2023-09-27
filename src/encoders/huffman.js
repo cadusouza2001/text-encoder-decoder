@@ -57,33 +57,6 @@ export function huffmanCompression(inputText) {
         return [...text].map(char => code[char]).join("");
     }
 
-    function huffmanDecode(encodedText, root) {
-        const decodedText = [];
-        let currentNode = root;
-
-        for (const bit of encodedText) {
-            if (bit === '0') {
-                currentNode = currentNode.left;
-            } else if (bit === '1') {
-                currentNode = currentNode.right;
-            }
-
-            if (currentNode.char !== null) {
-                decodedText.push(currentNode.char);
-                currentNode = root;
-            }
-        }
-
-        return decodedText.join("");
-    }
-
-    function calculateEntropy(freqMap) {
-        const totalSymbols = Object.values(freqMap).reduce((acc, freq) => acc + freq, 0);
-        const probabilities = Object.values(freqMap).map(freq => freq / totalSymbols);
-        const entropy = -probabilities.reduce((acc, p) => acc + (p > 0 ? p * Math.log2(p) : 0), 0);
-        return entropy;
-    }
-
     const freqMap = {};
     for (const char of inputText) {
         freqMap[char] = (freqMap[char] || 0) + 1;
@@ -97,8 +70,6 @@ export function huffmanCompression(inputText) {
     const code = buildHuffmanCodes(tree);
 
     const encodedText = huffmanEncode(inputText, code);
-    const entropy = calculateEntropy(freqMap);
-    const decodedText = huffmanDecode(encodedText, tree);
 
-    return { encodedText, code, entropy, decodedText };
+    return { encodedText, code };
 }

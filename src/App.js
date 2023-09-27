@@ -4,6 +4,7 @@ import './App.css';
 import { golombCompression } from './encoders/golomb';
 import { fibonacciCompression } from './encoders/fibonacci';
 import { fibonacciDecompression } from './decoders/fibonacci';
+import { huffmanDecompression } from './decoders/huffman';
 
 function App() {
 
@@ -18,7 +19,6 @@ function App() {
   const handleCompression = () => {
     switch (selectedAlgorithm) {
       case 'huffman':
-        let huffmanResult = huffmanCompression(inputText);
         setCompressedText(huffmanCompression(inputText).encodedText);
         break;
       case 'goulomb':
@@ -34,9 +34,10 @@ function App() {
 
   const handleDecompression = () => {
     switch (selectedAlgorithm) {
-      // case 'huffman':
-      //   setDecompressedText(huffmanCompression(inputText).decodedText);
-      //   break;
+      case 'huffman':
+        let huffmanResult = huffmanCompression(inputText);
+        setDecompressedText(huffmanDecompression(compressedText, huffmanResult.code));
+        break;
       // case 'goulomb':
       //   setDecompressedText(golombCompression(inputText).decodedStream);
       //   break;
@@ -51,7 +52,7 @@ function App() {
  
 
   const [inputText, setInputText] = useState('');
-  const [selectedAlgorithm, setSelectedAlgorithm] = useState('huffman');
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState('');
   const [compressedText, setCompressedText] = useState('');
   const [decompressedText, setDecompressedText] = useState('');
 
