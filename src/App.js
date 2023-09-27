@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { huffmanCompression } from './encoders/huffman';
 import './App.css';
 import { golombCompression } from './encoders/golomb';
-import { fibonacciEncode } from './encoders/fibonacci';
+import { fibonacciCompression } from './encoders/fibonacci';
+import { fibonacciDecompression } from './decoders/fibonacci';
 
 function App() {
 
@@ -17,25 +18,48 @@ function App() {
   const handleCompression = () => {
     switch (selectedAlgorithm) {
       case 'huffman':
+        let huffmanResult = huffmanCompression(inputText);
         setCompressedText(huffmanCompression(inputText).encodedText);
-        console.log(huffmanCompression(inputText));
         break;
       case 'goulomb':
         setCompressedText(golombCompression(inputText).encodedStream);
-        console.log(golombCompression(inputText));
         break;
       case 'fibonacci':
-        setCompressedText(fibonacciEncode(inputText).toString());
-        console.log(fibonacciEncode(inputText));
+        setCompressedText(fibonacciCompression(inputText).toString());
         break;
       default:
         break;
     }
   }
 
+  const handleDecompression = () => {
+    switch (selectedAlgorithm) {
+      // case 'huffman':
+      //   setDecompressedText(huffmanCompression(inputText).decodedText);
+      //   break;
+      // case 'goulomb':
+      //   setDecompressedText(golombCompression(inputText).decodedStream);
+      //   break;
+      case 'fibonacci':
+        setDecompressedText(fibonacciDecompression(compressedText));
+        break;
+      default:
+        break;
+    }
+  }
+
+ 
+
   const [inputText, setInputText] = useState('');
   const [selectedAlgorithm, setSelectedAlgorithm] = useState('huffman');
   const [compressedText, setCompressedText] = useState('');
+  const [decompressedText, setDecompressedText] = useState('');
+
+   useEffect(() => {
+    handleDecompression();
+  }, [compressedText]);
+  
+
   return (
     <div className="App">
       <h1>Compressor de Texto</h1>
@@ -63,6 +87,10 @@ function App() {
       <div>
         <h2>Texto Comprimido:</h2>
         <p>{compressedText}</p>
+      </div>
+      <div>
+        <h2>Texto Descomprimido:</h2>
+        <p>{decompressedText}</p>
       </div>
     </div>
   );
