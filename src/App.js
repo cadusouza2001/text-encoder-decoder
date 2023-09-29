@@ -8,6 +8,8 @@ import { huffmanDecompression } from './decoders/huffman';
 import { eliasGammaCompression } from './encoders/elias';
 import { eliasGammaDecompression } from './decoders/elias';
 import { golombDecompression } from './decoders/golomb';
+import EncodingComponent from './components/encoding';
+import DecodingComponent from './components/decoding';
 
 function App() {
 
@@ -74,57 +76,8 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Compressor de Texto</h1>
-      <div>
-        <label htmlFor="textArea">Insira o texto:</label>
-        <textarea
-          id="textArea"
-          value={inputText}
-          onChange={(event) => handleInputChange(event)}
-        />
-      </div>
-      <div>
-        <label htmlFor="algorithmSelect">Escolha o algoritmo:</label>
-        <select
-          id="algorithmSelect"
-          value={selectedAlgorithm}
-          onChange={(event) => handleAlgorithmChange(event)}
-        >
-          <option value="huffman">Huffman</option>
-          <option value="golomb">Golomb</option>
-          <option value="fibonacci">Fibonacci</option>
-          <option value="eliasGamma">Elias Gamma</option>
-        </select>
-      </div>
-      <button onClick={() => handleCompression()}>Comprimir</button>
-      <div>
-        <h2>Texto Comprimido:</h2>
-        <p>{compressedText}</p>
-      </div>
-      <div>
-  {selectedAlgorithm === 'huffman' && (
-    <div>
-      <h2>Codewords Huffman:</h2>
-      <p>{JSON.stringify(huffmanCodes)}</p>
-    </div>
-  )}
-
-  {selectedAlgorithm === 'golomb' && (
-    <div>
-      <label htmlFor="golombM">Valor de M (Golomb):</label>
-      <input
-        id="golombM"
-        type="number"
-        value={golombDivisor}
-        onChange={(event) => setGolombDivisor(Number(event.target.value))}
-      />
-    </div>
-  )}
-</div>
-      <div>
-        <h2>Texto Descomprimido:</h2>
-        <p>{decompressedText}</p>
-      </div>
+      <EncodingComponent/>
+      <DecodingComponent/>
     </div>
   );
 }
