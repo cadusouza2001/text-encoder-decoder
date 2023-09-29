@@ -18,35 +18,6 @@ function golombEncode(value, m) {
     return golombCode;
 }
 
-function golombDecode(golombCode, m) {
-    // Encontre o índice do primeiro "1" no código
-    const idx = golombCode.indexOf('1');
-
-    if (idx === -1) {
-        return 0; // Nenhum "1" encontrado, o valor é 0.
-    }
-
-    // O número de zeros no prefixo é o índice do primeiro "1"
-    const numZeros = idx;
-
-    // O tamanho do sufixo é dado por log2(m)
-    const numSuffixBits = Math.floor(Math.log2(m));
-
-    // O código do sufixo começa no índice do "1" após os zeros
-    const suffixStartIdx = idx + 1;
-
-    // O código do sufixo é o número de bits seguintes ao prefixo
-    const suffixCode = golombCode.slice(suffixStartIdx, suffixStartIdx + numSuffixBits);
-
-    // Converte o código do sufixo de binário para inteiro
-    const remainder = parseInt(suffixCode, 2);
-
-    // Calcule o valor final
-    const value = numZeros * m + remainder;
-
-    return value;
-}
-
 function calculateEntropy(probabilities) {
     const entropy = probabilities.reduce((acc, prob) => {
         const p = prob / probabilities.reduce((sum, p) => sum + p, 0);
@@ -65,8 +36,6 @@ export function golombCompression(inputText, m) {
 
     const entropy = calculateEntropy(probabilities);
 
-    const decodedStream = encodedStream.map(code => golombDecode(code, m));
-    const decodedText = decodedStream.join(' ');
 
-    return { encodedStream: encodedStream.join(''), entropy, decodedText };
+    return { encodedStream: encodedStream.join(''), entropy };
 }

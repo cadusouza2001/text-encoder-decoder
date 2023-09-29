@@ -7,6 +7,7 @@ import { fibonacciDecompression } from './decoders/fibonacci';
 import { huffmanDecompression } from './decoders/huffman';
 import { eliasGammaCompression } from './encoders/elias';
 import { eliasGammaDecompression } from './decoders/elias';
+import { golombDecompression } from './decoders/golomb';
 
 function App() {
 
@@ -23,8 +24,8 @@ function App() {
       case 'huffman':
         setCompressedText(huffmanCompression(inputText).encodedText);
         break;
-      case 'goulomb':
-        setCompressedText(golombCompression(inputText).encodedStream);
+      case 'golomb':
+        setCompressedText(golombCompression(inputText,4).encodedStream);
         break;
       case 'fibonacci':
         setCompressedText(fibonacciCompression(inputText).toString());
@@ -43,9 +44,9 @@ function App() {
         let huffmanResult = huffmanCompression(inputText);
         setDecompressedText(huffmanDecompression(compressedText, huffmanResult.code));
         break;
-      // case 'goulomb':
-      //   setDecompressedText(golombCompression(inputText).decodedStream);
-      //   break;
+      case 'golomb':
+        setDecompressedText(golombDecompression(compressedText,4));
+        break;
       case 'fibonacci':
         setDecompressedText(fibonacciDecompression(compressedText));
         break;
@@ -88,7 +89,7 @@ function App() {
           onChange={(event) => handleAlgorithmChange(event)}
         >
           <option value="huffman">Huffman</option>
-          <option value="goulomb">Goulomb</option>
+          <option value="golomb">Golomb</option>
           <option value="fibonacci">Fibonacci</option>
           <option value="eliasGamma">Elias Gamma</option>
         </select>
