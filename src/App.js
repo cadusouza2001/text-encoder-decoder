@@ -11,6 +11,13 @@ import { golombDecompression } from './decoders/golomb';
 
 function App() {
 
+  const [inputText, setInputText] = useState('');
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState('');
+  const [compressedText, setCompressedText] = useState('');
+  const [decompressedText, setDecompressedText] = useState('');
+  const [huffmanCodes, setHuffmanCode] = useState({});
+  const [golombDivisor, setGolombDivisor] = useState(2);
+
   const handleInputChange = (event) => {
     setInputText(event.target.value);
   }
@@ -22,10 +29,12 @@ function App() {
   const handleCompression = () => {
     switch (selectedAlgorithm) {
       case 'huffman':
-        setCompressedText(huffmanCompression(inputText).encodedText);
+        let result = huffmanCompression(inputText);
+        setCompressedText(result.encodedText);
+        setHuffmanCode(result.code);
         break;
       case 'golomb':
-        setCompressedText(golombCompression(inputText,4).encodedStream);
+        setCompressedText(golombCompression(inputText,golombDivisor).encodedStream);
         break;
       case 'fibonacci':
         setCompressedText(fibonacciCompression(inputText).toString());
@@ -45,7 +54,7 @@ function App() {
         setDecompressedText(huffmanDecompression(compressedText, huffmanResult.code));
         break;
       case 'golomb':
-        setDecompressedText(golombDecompression(compressedText,4));
+        setDecompressedText(golombDecompression(compressedText,golombDivisor));
         break;
       case 'fibonacci':
         setDecompressedText(fibonacciDecompression(compressedText));
@@ -57,13 +66,6 @@ function App() {
         break;
     }
   }
-
- 
-
-  const [inputText, setInputText] = useState('');
-  const [selectedAlgorithm, setSelectedAlgorithm] = useState('');
-  const [compressedText, setCompressedText] = useState('');
-  const [decompressedText, setDecompressedText] = useState('');
 
    useEffect(() => {
     handleDecompression();
@@ -99,6 +101,26 @@ function App() {
         <h2>Texto Comprimido:</h2>
         <p>{compressedText}</p>
       </div>
+      <div>
+  {selectedAlgorithm === 'huffman' && (
+    <div>
+      <h2>Codewords Huffman:</h2>
+      <p>{JSON.stringify(huffmanCodes)}</p>
+    </div>
+  )}
+
+  {selectedAlgorithm === 'golomb' && (
+    <div>
+      <label htmlFor="golombM">Valor de M (Golomb):</label>
+      <input
+        id="golombM"
+        type="number"
+        value={golombDivisor}
+        onChange={(event) => setGolombDivisor(Number(event.target.value))}
+      />
+    </div>
+  )}
+</div>
       <div>
         <h2>Texto Descomprimido:</h2>
         <p>{decompressedText}</p>
