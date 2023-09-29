@@ -5,6 +5,8 @@ import { golombCompression } from './encoders/golomb';
 import { fibonacciCompression } from './encoders/fibonacci';
 import { fibonacciDecompression } from './decoders/fibonacci';
 import { huffmanDecompression } from './decoders/huffman';
+import { eliasGammaCompression } from './encoders/elias';
+import { eliasGammaDecompression } from './decoders/elias';
 
 function App() {
 
@@ -27,6 +29,9 @@ function App() {
       case 'fibonacci':
         setCompressedText(fibonacciCompression(inputText).toString());
         break;
+      case 'eliasGamma':
+        setCompressedText(eliasGammaCompression(inputText));
+        break;
       default:
         break;
     }
@@ -43,6 +48,9 @@ function App() {
       //   break;
       case 'fibonacci':
         setDecompressedText(fibonacciDecompression(compressedText));
+        break;
+      case 'eliasGamma':
+        setDecompressedText(eliasGammaDecompression(compressedText).join(" "));
         break;
       default:
         break;
@@ -82,6 +90,7 @@ function App() {
           <option value="huffman">Huffman</option>
           <option value="goulomb">Goulomb</option>
           <option value="fibonacci">Fibonacci</option>
+          <option value="eliasGamma">Elias Gamma</option>
         </select>
       </div>
       <button onClick={() => handleCompression()}>Comprimir</button>
