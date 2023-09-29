@@ -4,6 +4,7 @@ import { golombDecompression } from '../../decoders/golomb';
 import { fibonacciDecompression } from '../../decoders/fibonacci';
 import { eliasGammaDecompression } from '../../decoders/elias';
 
+
 const DecodingComponent = () => {
   const [compressedText, setCompressedText] = useState('');
   const [selectedAlgorithm, setSelectedAlgorithm] = useState('');
@@ -35,6 +36,22 @@ const DecodingComponent = () => {
     }
   }
 
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0]; // Pega o primeiro arquivo selecionado (pode adicionar validações adicionais)
+  
+    if (file) {
+      const reader = new FileReader();
+  
+      reader.onload = (e) => {
+        const fileContent = e.target.result; // Conteúdo do arquivo como uma string
+        setCompressedText(fileContent);
+      };
+  
+      reader.readAsText(file); // Lê o arquivo como texto
+    }
+  };
+  
+
   return (
     <div>
       <h1>Compressor de Texto - Decodificação</h1>
@@ -45,6 +62,8 @@ const DecodingComponent = () => {
           value={compressedText}
           onChange={(event) => setCompressedText(event.target.value)}
         />
+        <input type="file" accept=".txt" onChange={handleFileUpload} />
+
       </div>
       <div>
         <label htmlFor="decodingAlgorithmSelect">Escolha o algoritmo de Decodificação:</label>

@@ -40,6 +40,22 @@ const EncodingComponent = () => {
     }
   }
 
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0]; // Pega o primeiro arquivo selecionado (pode adicionar validações adicionais)
+  
+    if (file) {
+      const reader = new FileReader();
+  
+      reader.onload = (e) => {
+        const fileContent = e.target.result; // Conteúdo do arquivo como uma string
+        setInputText(fileContent);
+      };
+  
+      reader.readAsText(file); // Lê o arquivo como texto
+    }
+  };
+  
+
   useEffect(() => {
     handleCompression();
   }, [selectedAlgorithm, golombDivisor]);
@@ -55,6 +71,8 @@ const EncodingComponent = () => {
           onChange={(event) => handleInputChange(event)}
         />
       </div>
+      <input type="file" accept=".txt" onChange={handleFileUpload} />
+
       <div>
         <label htmlFor="algorithmSelect">Escolha o algoritmo:</label>
         <select
