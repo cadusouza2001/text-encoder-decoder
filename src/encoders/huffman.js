@@ -27,7 +27,16 @@ export function huffmanCompression(inputText) {
             parent.left = left;
             parent.right = right;
             heap.push(parent);
-            heap.sort((a, b) => a.freq - b.freq);
+            heap.sort((a, b) => {
+                //Se um dos nós for intermediário e ambos tiverem a mesma frequência, o nó intermediário deve ser colocado antes do nó folha
+                if (a.char === null && b.char !== null && a.freq === b.freq) {
+                    return -1;
+                }
+                if (a.char !== null && b.char === null && a.freq === b.freq) {
+                    return 1;
+                }
+                return a.freq - b.freq;
+            });
         }
 
         return heap[0];

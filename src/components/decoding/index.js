@@ -6,8 +6,8 @@ import { eliasGammaDecompression } from '../../decoders/elias';
 
 
 const DecodingComponent = () => {
-  const [compressedText, setCompressedText] = useState('');
-  const [selectedAlgorithm, setSelectedAlgorithm] = useState('');
+  const [compressedText, setCompressedText] = useState('101111110101100000101001101100111');
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState('huffman');
   const [decompressedText, setDecompressedText] = useState('');
   const [huffmanCodes, setHuffmanCode] = useState({});
   const [golombDivisor, setGolombDivisor] = useState(2);
@@ -100,7 +100,6 @@ const DecodingComponent = () => {
                   setHuffmanCode(JSON.parse(event.target.value || '{}'));
                 } catch (error) {
                   console.error('Erro ao analisar o JSON de códigos Huffman:', error);
-                  // Lide com o erro de análise JSON aqui, se necessário
                 }
               }}
             placeholder="Insira os códigos Huffman em formato JSON"

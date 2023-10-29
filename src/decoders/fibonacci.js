@@ -36,16 +36,22 @@ export function fibonacciDecompression(encodedStream) {
     // Decode the encoded stream
     let decodedStream = '';
     let startIndex = 0;
+    let lastBitIsStopBit = false;
+
     for (i = 1; i < encodedStream.length; i++) {
-        if (encodedStream[i] === '1' && encodedStream[i - 1] === '1') {
+        if (encodedStream[i] === '1' && encodedStream[i - 1] === '1' && !lastBitIsStopBit) {
             const codeword = encodedStream.substring(startIndex, i);
             const decodedValue = fibonacciDecoding(codeword);
+            lastBitIsStopBit = true;
             if (decodedValue === -1) {
                 // Invalid codeword, cannot decode
                 return 'Invalid Codeword';
             }
             decodedStream += decodedValue + ' ';
             startIndex = i+1;
+        }
+        else if (lastBitIsStopBit) {
+            lastBitIsStopBit = false;
         }
     }
     return decodedStream.trim(); // Remove trailing space

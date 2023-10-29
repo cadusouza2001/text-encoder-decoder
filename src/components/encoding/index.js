@@ -7,9 +7,9 @@ import FileSaver from "file-saver";
 
 const EncodingComponent = () => {
   const [inputText, setInputText] = useState(
-    "ababbebcaaeaabaddaeccbeaaaeeedecaeaa"
+    "carlossouza"
   );
-  const [selectedAlgorithm, setSelectedAlgorithm] = useState("");
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState("huffman");
   const [compressedText, setCompressedText] = useState("");
   const [huffmanCodes, setHuffmanCode] = useState({});
   const [golombDivisor, setGolombDivisor] = useState(4);
